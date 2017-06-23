@@ -1,0 +1,9 @@
+# Instructions for generating other presentation formats from md
+
+
+Pandoc:
+
+`pandoc -f markdown_github -t html5 --standalone --css markdown4.css Handout-Part1.md > Handout-Part1.html5`
+
+Fiddling with `markdown4.css` will adjust the HTML presentation. `--self-contained` will put all images and
+the stylesheet into a single file.
