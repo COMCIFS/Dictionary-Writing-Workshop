@@ -7,3 +7,12 @@ Pandoc:
 
 Fiddling with `markdown4.css` will adjust the HTML presentation. `--self-contained` will put all images and
 the stylesheet into a single file.
+
+Old method of generating latex, using the contents of metadata.yaml to describe the LaTex.
+
+pandoc -f markdown+yaml_metadata_block+implicit_figures-hard_line_breaks -t latex --template=handout-template.tex metadata.yaml Handout-Part1.md > Handout-Part1.tex
+
+From restructured Text:
+
+rst2latex --template rst-handout-template.tex --documentclass tufte-handout --documentoptions=justified,a4paper Handout-Part1.rst > rst-test.tex
+
