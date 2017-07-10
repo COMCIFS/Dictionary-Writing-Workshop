@@ -1,34 +1,31 @@
-# Dictionary Writing Workshop
+# Components of a Data Transfer Framework
 
-## Components of a Data Transfer Framework
-
-Any system for transferring data, from the humble three-column
-ASCII file attached to an email to the Crystallographic Information
-Framework, can be broken into four parts:
+Any system for transferring data, whether it is a three-column ASCII
+file attached to an email or a CIF file, can be broken into four
+parts:
 
 1. Data values: the values to be transferred. Values may be anything
 that we can plausibly transfer *via* computer, including numbers, text,
 vectors, sets, lists and images.
 2. An ontology: a shared understanding of the meanings of the data
-values.  This is accomplished by assigning values to _data names_. The
-data name is then used to communicate how the one or more associated
-values are to be interpreted. A _dictionary_ is used to describe the
-ontology.
+values.  This can be accomplished by attaching values to _data
+names_. The data name is then used to communicate how the one or more
+associated values are to be interpreted. The data names are collected
+into a data name _dictionary_ , describing the ontology.
 3. One or more file formats: structured arrangements of data values
 4. Linkage between a format and an ontology: a description of how
 the data names and values from the ontology are encoded in a given format.
+
+\begin{figure}
+\caption{The four data transfer components in an email message}
+\includegraphics[width=\textwidth]{email-ontology.eps}
+\end{figure}
 
 The absence of any one of the above four components must lead to a failure in
 data communication.  No data values means no data; no shared ontology means that
 the sender and receiver would understand the data differently; no format means no
 electronic encoding of the data; and no linkage means no way of encoding the
 data values in the format in a mutually understandable way.
-
-> Example 1: a three-column ASCII file attached to an email might contain columns of
-> angles, measured intensities and errors on those intensities.  The diagram below
-> identifies the four components.
-> 
-> ![email message](email-ontology.png)
 
 The ontology and format-ontology linkage are often only informally or
 partially specified, relying on a common store of scientific knowledge
@@ -46,17 +43,17 @@ the form in which they are communicated.  The first part of this
 course focuses only on describing the data names (that is, developing
 the ontology). The resulting ontology is applicable to any format.
 
-## Data names and their relationships.
+# Data names and their relationships.
 
 As described above, each of our data values belongs to a data name,
 which is a label for the concept that the value is an instance of.
 Examples include 'wavelength', 'measurement point', 'user name',
 'sample composition'. Any data name will have multiple possible
-values. If a data name could only ever have one value, then there is
+values - if a data name could only ever have one value, then there is
 no point including it in a data transfer framework, as the data file
 would not be providing any new information.
 
-### Context
+## Context
 
 Given that any data name could have multiple values, we need some
 further information to understand what, if anything, distinguishes one
@@ -66,27 +63,26 @@ specific values to a set of data names {K}. After this assignment, if
 every value of the data names in {K} is the same, then our target data
 name *must* always have the same value (or the logically equivalent
 statement: if the value of our data name changes, then at least one
-value of the data names in {K} *must* be different).  If this is not
-the case, we add further data names to {K} until it is true. As a
-logical consequence, if any one of the values for the data names in
-{K} is different, then our target dataname *may* have a different
-value. We will call the list of data names {K} the *key* data names
-for the data name that is defined.
+value of the data names in {K} *must* be different).  \marginnote{The
+values taken by the data name are a mathematical mapping (function) of
+the values in {K}.} If this is not the case, we add further data names
+to {K} until it is true. As a logical consequence, if any one of the
+values for the data names in {K} is different, then our target
+dataname *may* have a different value. We will call the list of data
+names {K} the *key* data names for the data name that is defined.
 
-> **Aside**
-> The values taken by the data name are a mathematical mapping (function)
-> of the values in {K}.
+\begin{exer}
+Work out possible key data names for each data name in the following
+ list.
 
-> **Exercise**: Work out possible key data names for each data name in the following
-> list.
->
-> "atomic position" 
-> "atomic element" 
-> "monochromator setting" 
-> "observed intensity" 
-> "calculated intensity"
+ "atomic position"   
+ "atomic element"   
+ "monochromator setting"   
+ "observed intensity"   
+ "calculated intensity"  
+\end{exer}
 
-#### Observations and calculations
+## Observations and Calculations
 
 For convenience we now divide data names into "observations" and
 "calculations".  Calculated values will always be the same if the same
@@ -106,34 +102,35 @@ which we expect the measured value to be determined by the value of
 some other parameters, with the actual experiment, in which a series
 of observations are made.
 
-The values of "a measurement point" are likely to be unique only for a
-particular run of an experiment.  So for complete context, adding a
-universally-unique identifier, something like "dataset id", is
-necessary. If measurements are divided into a series of scans, with
+Making values of "a measurement point" globally unique is cumbersome.
+We can add a further key data name, something like "dataset id", to
+avoid this. If measurements are divided into a series of scans, with
 different settings for each scan, "scan id" might also be a useful
 additional key data name.
 
-### Identifiers
+## Identifiers
 
 We have been using a third class of data names, those that are
-"identifiers".  In our example, these are the measurement points.  For
-"identifier" data names, the actual values of the data name are
+"identifiers".  In our example above, these are the measurement
+points.  For "identifier" data names, the actual values are
 irrelevant, as the values are only used to distinguish or label
 different members. Examples of identifier data names include
 measurement points, serial numbers, atom sites, sample numbers and run
 numbers.  While we often use numbers for identifier data values
 because it is easy to pick a unique one if we label sequentially,
-these should not be used as numbers; if an identifier value has some
-other meaning, or is used in calculations, then we run the risk that a
-situation will arise where the same value should be assigned to
-distinct items, and so our values can no longer serve as
+their numerical properties should not be used; if an identifier value
+has some other meaning, or is used in calculations, then we run the
+risk that a situation will arise where the same value should be
+assigned to distinct items, and so our values can no longer serve as
 identifiers. For example, we may decide to identify image frames in a
 data collection by numbering sequentially from zero, with each frame
 corresponding to a small uniform change in a sample orientation axis.
 If we then fall into the trap of using the image number multiplied by
 the axis step to get the axis value, we can no longer cope with a
 situation where the same orientation was recollected, for whatever
-experimental reason.  Consider, however, the human user and suggest a
+experimental reason.  
+
+When choosing identifiers, consider the human user and suggest a
 natural system of labeling in your definition - labels that are
 meaningful to humans are just as good as random strings, but should
 never be involved in manipulations specified in other definitions.
@@ -142,7 +139,7 @@ Unlike other data names, _identifiers do not have to have key data
 names_ (or more strictly, they can be their own key data names).  This
 makes sense, as the actual values of identifiers are arbitrary.
 
-### Summary
+## Summary
 
 In order to define a data name we need to identify the key data names,
 the values that our data name can take, and how to use the values of
@@ -154,32 +151,32 @@ parameters of the calculation and the equations involved.  References
 to published works for calculations may be sufficient as the target of
 our definition is a human reader (probably a scientist-programmer).
 
-### Practice questions:
+## Practice questions:
 
 > Q 1. During a synchrotron experiment, monitor counts are recorded in a gas
 > filled ion chamber.  Which of the following data names are key
 > data names for the counts measured in the ion chamber?
 > 
-> A: the gas pressure
-> B: the gas mixture
-> C: the ion chamber length
-> D: all of the above
-> E: none of the above
+> A: the gas pressure  
+> B: the gas mixture  
+> C: the ion chamber length  
+> D: all of the above  
+> E: none of the above  
 > 
 > Q 2. During the same synchrotron experiment, variation of transmitted
 > intensity as a sample is moved across the beam is recorded.  The expected
 > measured intensity is calculated following the experiment. Which of the
 > following data names are key datanames for this calculated intensity?
 > 
-> A: the monitor ion chamber measured intensity
-> B: the sample thickness
-> C: the detector voltage
-> D: all of the above
-> E: none of the above
+> A: the monitor ion chamber measured intensity  
+> B: the sample thickness  
+> C: the detector voltage  
+> D: all of the above  
+> E: none of the above  
 
-## Creating the ontology, step by step
+# Creating the ontology, step by step
 
-### Step 1: Brainstorm data names
+## Step 1: Brainstorm data names
 
 Write down all of the values that you would like to include in a data
 file.  For convenience, assign some short, descriptive names to them (these
@@ -198,8 +195,11 @@ already in your list:
       file _and_ you can think of relevant properties that are constant for
       members of each group.  For example, within a single scan the
       scan step might be constant.
+  * Look at the data files that are already used in your field and
+  extract data names from them. To locate data names, remember every
+  scientifically useful value in a data file belongs to a data name.
 
-### Step 2: Sharpen up the definitions
+## Step 2: Sharpen up the definitions
 
 For each of your datanames from Step 1, write a definition that conveys unambiguously
 to a human reader the following three things:
@@ -213,31 +213,30 @@ into "observations","calculations" and "identifiers" may help, with
 identifiers often associated with indefinite nouns like "an image" "a
 measurement" "an experimenter". You could use well-defined terminology
 from your field and references to literature to keep your definition
-short.  Remember, identifiers do not have key data names.
+short.
 
-#### Finding key data names
+\begin{testexample}[Finding key data names]
+What are the key data names for "an experimental role",
+ which we have defined as "the role performed by an experimenter during
+ the experiment"? 
 
-The nouns in your definition are good candidates for key data names.
+ "An experimental role" is observational, so
+ \{"measurement id","dataset id"\} are key data names.  Our
+ definitional sentence includes nouns "role" and "experimenter", both
+ of which could become identifiers.  If we have a measurement and a
+ person, do we have a single unique role identified?  In other words,
+ could one person perform two roles at once?  If not (we did after
+ all write "\emph{the} role"), then \{"measurement id","dataset id" and
+ "experimenter id"\} are sufficient.
+\end{testexample}
 
-> Example: Working out the key data names for "an experimental role",
-> which we have defined as "the role performed by an experimenter during
-> the experiment" 
->
-> "An experimental role" is observational, so
-> {"measurement id","dataset id"} are key data names.  Our
-> definitional sentence includes nouns "role" and "experimenter", both
-> of which could become identifiers.  If we have a measurement and a
-> person, do we have a single unique role identified?  In other words,
-> could one person perform two roles at once?  If not (we did after
-> all write "_the_ role"), then {"measurement id","dataset id" and
-> "experimenter id"} are sufficient.
+\begin{exer}: work out how to represent simultaneous roles.  Possible
+ roles might include {"principal" "attending" "experimenter" "dogsbody"
+ "programmer" "instrument responsible"} . See the ionisation chamber example
+ below for ideas.
+\end{exer}
 
-> Exercise: work out how to represent simultaneous roles.  Possible
-> roles might include {"principal" "attending" "experimenter" "dogsbody"
-> "programmer" "instrument responsible"} . See the gas chamber example
-> below for ideas.
-
-### Step 3: Make your definitions computationally useful
+## Step 3: Make your definitions computationally useful
 
 Remember that an important reason for this work is to convey
 information in a way that is manipulable by computer.  Any data name
@@ -249,33 +248,34 @@ settings.  So look over your datanames, and:
 1. where you have quantitative information in free or formatted text, rework it into
 observational or calculated data names that take numerical values.
 
-    > Example
-    > 
-    > Our starting definition: **gas mix** "the mixture of gases in an ion
-    > chamber, in format element-percent-element-percent".
-    > 
-    > This contains useful information embedded in the value. So we
-    > rearrange into:
-    > **gas mix id** label for a gas mix
-    > **gas name** name of the gas in a mix
-    > **gas percentage** percentage of this gas in the mix
-    > **detector gas mix id** the gas mix in a detector
-    > 
-    > Now we can tabulate all of our mixes:
-    >
-    > |   Gas name   | gas mix id   |   gas percentage   |
-    > |:--------|:-----------:|---------------:|
-    > Ar       |     C      |      100
-    > He       |     A      |       50
-    > N        |     A      |       50
-    > 
-    > And we might then also describe our detectors as follows:
-    >
-    > |   detector name   |    detector gas mix id   |    detector length   |   location
-    > |:-------------|:--------------:|------------:|:-------------------
-    > BB25          |      A       |       5    |    monitor
-    > XYZ           |      C       |       5    |    detector
-    > Old-G         |      C       |       10   |    foil
+#### Example {#gasex .example .unnumbered extitle="Ionisation chamber gas mix"}
+ Our starting definition: **gas mix** "the mixture of gases in an ion
+ chamber, in format element-percent-element-percent".
+ 
+ This contains useful information embedded in the value. So we
+ rearrange into:
+ **gas mix id** label for a gas mix
+ **gas name** name of the gas in a mix
+ **gas percentage** percentage of this gas in the mix
+ **detector gas mix id** the gas mix in a detector
+ 
+ Now we can tabulate all of our mixes:
+
+ |   Gas name   | gas mix id   |   gas percentage   |
+ |:--------|:-----------:|---------------:|
+ Ar       |     C      |      100
+ He       |     A      |       50
+ N        |     A      |       50
+ 
+ And we might then also describe our detectors as follows:
+
+ |   detector name   |    detector gas mix id   |    detector length   |   location
+ |:-------------|:--------------:|------------:|:-------------------
+ BB25          |      A       |       5    |    monitor
+ XYZ           |      C       |       5    |    detector
+ Old-G         |      C       |       10   |    foil
+
+~~~~~
 
 2. Where there are limited choices for the value of a data name,
 explicitly define each of these choices and assign a number or
@@ -294,17 +294,19 @@ recreate your original intention of "these two quantities occur
 together".  As an added benefit, you can later add further items of
 this type with no change to your ontology.
 
-    > Example: Ion chambers used at synchrotrons have sensitivity to
-    > the X-ray beam running through them tuned by adjusting the gas
-    > mix of gases in them.  Our initial idea is "detector name"
-    > "first gas" "first gas percent" "second gas" "second gas
-    > percent".  However, the gases and gas percentages are of the
-    > same type, and we could imagine a situation where three or more
-    > gases are used.  So we change the ontology to "detector name"
-    > "gas mix id" "gas percentage" and "detector gas mix id".  We can
-    > now record the same information, and express as many gases and
-    > gas combinations as we wish.  See the example above for how this
-    > appears in practice.
+\begin{testexample}[Ionisation chamber gases]
+ Example: Ion chambers used at synchrotrons have sensitivity to
+ the X-ray beam running through them tuned by adjusting the gas
+ mix of gases in them.  Our initial idea is "detector name"
+ "first gas" "first gas percent" "second gas" "second gas
+ percent".  However, the gases and gas percentages are of the
+ same type, and we could imagine a situation where three or more
+ gases are used.  So we change the ontology to "detector name"
+ "gas mix id" "gas percentage" and "detector gas mix id".  We can
+ now record the same information, and express as many gases and
+ gas combinations as we wish.  See the example above for how this
+ appears in practice.
+\end{testexample}
 
 4. Units. Some file formats offer structures that allow the file
 writer to specify units. Avoid using these as they create
@@ -351,7 +353,7 @@ At the completion of this step, your ontology has all the information
 necessary to use it for data transfer.  We now draw out some important
 features of the ontology for practical use.
 
-### Part 4: Data blocks
+## Step 4: Data blocks
 
 When you consider your data names, it is likely that some of them will
 have the same value over the entire data set that you wish to transfer
@@ -373,7 +375,7 @@ conceivably take multiple values.
 
 > Question: what data names are most likely to be constant in your area?
 
-### Part 5: Categories
+## Step 5: Categories
 
 Group your data names so that the data names in each group have the
 same key data names.  These groups of data names are called
@@ -384,7 +386,7 @@ with them.  Using this strategy, together with separately listing
 values for data names that do not change within a data block, leads to
 considerable space reduction when encoding values into files.
 
-### Part 6: Naming
+## Step 6: Naming
 
 It is organisationally useful to name the categories, and then name
 the data names within them using the category name as a prefix. In
@@ -399,15 +401,34 @@ confusing - is "temp" short for temperature or temporary?  Whitespace
 is not an issue for modern programming languages, but in some contexts
 (e.g. operating system shell scripts) can be annoying.
 
-### Summary
+## Summary
 
 You should now have a list of data names, with associated meanings
 that are unambiguous and fit for use in data transfer contexts. You
 have defined one or more data blocks.
 
-## Advanced topics
+# Using the ontology
 
-### Aggregate calculations
+As discussed in the introduction, the ontology must be mated with one
+or more formats.  While this is largely outside the scope of this
+workshop, a few general points can be made about format selection:
+
+1. the data values must be representable within the format. This is
+generally trivially possible, as any value can be represented as text,
+that is, a sequence of bytes with a specified encoding.
+
+2. the correspondence between each data value and its key data value(s) 
+must be representable.  This requirement is met by any format that can
+put data values into ordered lists; in this case values at the same
+position in a list can be considered to correspond.
+
+3. All other format considerations would be based on non-ontological 
+criteria, such as software support, efficiency, or long-term archival
+support.
+
+# Advanced topics
+
+## Aggregate calculations
 
 > Q: Give a key data name for data name "average measured intensity"
 
@@ -439,7 +460,7 @@ merging.  Such merging also constitutes an aggregate function that
 might entail a new id if multiple separate merging processes are to be
 recorded. And so forth.
 
-### Adding and redefining data names
+## Adding and redefining data names
 
 Once an ontology is published, the relationships between data names
 and their key data names become enshrined in software that is then
@@ -475,7 +496,7 @@ for a given data set. Such a data name should be defined when an
 ontology is first published, so that a check of its value is
 incorporated into all software.
 
-### Identifier data names that appear in more than one place
+## Identifier data names that appear in more than one place
 
 In our gas mix example above, the data name **gas mix id** appears
 very similar to **detector gas mix id** in that it can take the same
@@ -485,7 +506,7 @@ names should be chosen to indicate these differing roles, but
 it is useful for checking purposes to indicate in your ontology
 that such relationships exist.
 
-## Further reading
+# Further reading
 
 [cite Spivak]
 [cite Hester]

@@ -9,6 +9,7 @@ $stylesheet
 \usepackage{amsthm}
 \usepackage[most]{tcolorbox}
 \usepackage{xparse}
+\usepackage{pygments-default}
 \def\exampletext{Example} % If English
 \NewDocumentEnvironment{testexample}{ O{} }
 {
@@ -57,6 +58,8 @@ $stylesheet
 \newcommand{\DUtitlenote}[1]{}
 \newcommand{\DUtitleimportant}[1]{}
 \newcommand{\DUrolesidenote}{\marginnote}
+%%% Typesetting CIF text
+%%% \newcommand{\DUroletag}{\bf}
 %%% Fallback definitions for Docutils-specific commands
 $fallbacks$pdfsetup
 $titledata
