@@ -6,9 +6,11 @@ The Relational Model
           
 The ontological structure described in the previous section maps
 precisely onto the **Relational Model** used in relational databases.
-The relational model was introduced by Codd [cite] in 1970. Insights
-from over 40 years of working with this model can be usefully
-applied to the structure of our ontology.
+ :sidenote:`Codd,
+E.F (1970).  Communications of the ACM. Classics. 13 (6),
+377–87. doi:10.1145/362384.362685` Insights from over 40 years of
+working with this model can be usefully applied to the structure of
+our ontology.
 
 .. tip:: This close correspondence to the relational model does not
    mean that the data file format must be a relational database or
@@ -25,7 +27,7 @@ A **relation** can be represented by a table satisfying a few conditions:
 
 1. Columns can appear in any order
 2. Rows can appear in any order
-3. The values in each column are drawn from the same **domain** (however defined)
+3. The values in a given column are drawn from the same **domain** (i.e. the same type)
 4. No two rows contain completely identical values
 
 The column headings are called **attributes**.  An m-row relation with
@@ -72,10 +74,7 @@ to meet certain goals. The goals that are relevant to us are:
 
         This is crucial for us as we cannot change the way in which
         data names are interpreted once the standard is embodied in
-        distributed software. In our image example in the previous
-        section, it would be possible to provide the same images in a
-        variety of compressions and encodings with no change to the
-        ontology.
+        distributed software.
 
 Important normalisations that can be applied are:
 
@@ -111,3 +110,13 @@ through an **associative table**, as created in that example.
 **one-to-many** and **many-to-one** relationships are simply
 expressed by using a (key data name) identifier for the **many** and
 tabulating the **one** against it.
+
+Further reading
+===============
+
+1. The imgCIF dictionary is an excellent, small-scale example of a nicely
+   normalised ontology. Find it at: ``ftp://ftp.iucr.org/cifdics/cif_img_1.3.2.dic.pdf``
+   or `International Tables for Crystallography, Volume G`, Sections 3.7 and 4.6
+
+2. Wikipedia articles "Relational Model" and "Database normalisation" are good
+   starting points.

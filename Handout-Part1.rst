@@ -131,39 +131,38 @@ serial numbers, atom sites, sample numbers and run numbers.
 .. warning:: While we often use numbers for identifier data values
    because it is easy to pick a unique one if we label sequentially,
    their numerical properties should not be used; if an identifier
-   value has some other meaning, or is used in calculations, then we
-   run the risk that a situation will arise where the same value
-   should be assigned to distinct items, and so our values can no
-   longer serve as identifiers. For example, we may decide to identify
-   image frames in a data collection by numbering sequentially from
-   zero, with each frame corresponding to a small uniform change in a
-   sample orientation axis. If we then fall into the trap of using the
-   image number multiplied by the axis step to get the axis value, we
-   can no longer cope with a situation where the same orientation was
-   recollected, for whatever experimental reason.
+   value is more than a simple unique value, for example, it is used
+   in calculations, then we run the risk that a situation will arise
+   where the same value should be assigned to distinct items, and so
+   our values can no longer serve as identifiers. For example, we may
+   decide to identify image frames in a data collection by numbering
+   sequentially from zero, with each frame corresponding to a small
+   uniform change in a sample orientation axis. If we then fall into
+   the trap of using the image number multiplied by the axis step to
+   get the axis value, we can no longer cope with a situation where
+   the same orientation was recollected, for whatever experimental
+   reason.
 
 When choosing identifiers, consider the human user and suggest a
 natural system of labeling in your definition - labels that are
 meaningful to humans are just as good as random strings, but the
-labels should never be involved in manipulations specified in other
-definitions.
+labels should never be manipulated in other definitions.
 
 Unlike other data names, *identifiers do not always have key data
 names* . :sidenote:`Mathematically, identifiers are their own key data
 names.` Identifiers can appear both as key and non-key data names in
 the ontology: for example, in our description of a structure an atom
-site may have an 'atom type' giving the element occupying that site.
+site may have 'element name' giving the element occupying that site.
 Elsewhere in our ontology we might have 'form factor' 'valence'
-'isotope', which have 'atom type' as the key data name.  The values of
-the former 'atom type' are drawn from the values of the latter. It is
-clearly important to distinguish these two uses of 'atom type', as
-their interpretation is different: one is "the atom type at a given
-atomic site", and the other is "the atom type to which this valence/
+'isotope', which have 'element name' as the key data name.  The values of
+the former 'element name' are drawn from the values of the latter. It is
+clearly important to distinguish these two uses of 'element name', as
+their interpretation is different: one is "the element at a given
+atomic site", and the other is "the element to which this valence/
 isotope/form factor relates" :sidenote:`The full interpretation might
-be "the atom type at the atomic site in the structural solution for
+be "the element at the atomic site in the structural solution for
 this dataset"`. For this reason the two distinct uses must be assigned
-different data names, for example "atom site atom type" and "atom
-type".
+different data names, for example "atom site element" and "element".
 
 Summary
 -------
@@ -204,22 +203,22 @@ Practice questions:
     | E: none of the above
 
     Q 3. For efficiency, simultaneous intensity measurements from
-    multi-pixel detectors are stored in a datafile as a sequence of
+    multi-pixel detectors are stored in a data file as a sequence of
     bytes that has a particular compression algorithm and integer
-    encoding. The particular choice of encoding and compression
-    routine might vary within a single measurement sequence according
-    to factors such as the range of values, maximum value, or detector
-    module.  Assume we have assigned a data name to one of these byte
-    sequences.  What are the key data names?
+    encoding, which we have assigned data name "compressed image". The
+    particular choice of encoding and compression routine might vary
+    within a single measurement sequence according to factors such as
+    the range of values, maximum value, or detector module.  What are
+    the key data names for "compressed image"?
 
     Answer: the byte sequence is processed data, so all parameters
     used in the processing are relevant. In this case the input is the
     raw data from every pixel, an encoding and a compression id. If
     any of these change, the byte sequence may be different, and given
     all of these, the byte sequence is fixed, so they fulfill our
-    requirements for key data names. In practice we would bundle the
-    raw data from every pixel into something like "raw image" and
-    assign an identifier to each such image.
+    requirements for key data names.  For brevity we would attach an
+    identifier to each set of pixel data, and could call it "raw image
+    id".
 
 Creating the ontology, step by step
 ===================================
@@ -249,9 +248,9 @@ is already in your list.
    extract data names from them. To locate data names, remember every
    scientifically useful value in a data file belongs to a data name.
    Examine the context of these values to find key data names. The
-   context in a hierarchical structure consists of the nodes above the
-   value of interest, and the values attached to the same node.
-   Further context might be indicated in the specifications.
+   context in a hierarchical structure typically consists of the nodes
+   above the value of interest, and the values attached to the same
+   node.  Further context might be indicated in the specifications.
 
 Step 2: Sharpen up the definitions
 ----------------------------------
@@ -328,8 +327,9 @@ as creating an associative table.
 
     Our starting definition is: **gas mix** "the mixture of gases in
     an ion chamber, in format element-percent-element-percent", with
-    key data name "detector id" and other data names "detector length"
-    and "location".  If we tabulate this, we might have:
+    key data name "detector id" and other data names that also have
+    "detector id" as a key data name are "detector length" and
+    "location".  If we tabulate this, we might have:
 
      +----------------+-------------+-------------------+------------+
      | detector id    | gas mix     | detector length   | location   |
@@ -341,11 +341,11 @@ as creating an associative table.
      | Old-G          | Ar-100      | 10                | foil       |
      +----------------+-------------+-------------------+------------+
      
-   As described in point (1) above, this embeds data items into the
-   value, essentially making them unavailable elsewhere in our
-   ontology.  To remedy this, we create data names "first gas" "first
-   gas percent" "second gas" "second gas percent" (leaving out the
-   other two columns for now)
+   As described in point (1) above, the gas mix definition embeds data
+   items into the value, essentially making them unavailable elsewhere
+   in our ontology.  To remedy this, we create data names "first gas"
+   "first gas percent" "second gas" "second gas percent" (leaving out
+   the other two columns for now)
 
      +----------------+-------------+-------------+-------------+--------------+
      | detector    id | first gas   | first gas % | second gas  | second gas % |
@@ -367,10 +367,10 @@ as creating an associative table.
    two data names key data names for a new data name "gas percentage"
    and drop "first/second gas percent".  Now, given an ionisation
    chamber, it is sufficient for us to nominate the gas mix id to
-   completely identify the gas components - but recall from earlier
-   that the gas mix id that has detector id as its key data name must
-   have a different data name. We can tabulate all of our mixes in an
-   associative table:
+   completely identify the gas components - but recall from the
+   earlier "element name" example that the gas mix id that has
+   detector id as its key data name must have a different data
+   name. We can now tabulate all of our mixes in an associative table:
     
     +------------+--------------+------------------+
     | Gas name   | gas mix id   | gas percentage   |
@@ -382,7 +382,7 @@ as creating an associative table.
     | N          | A            | 50               |
     +------------+--------------+------------------+
     
-   And so we might then also describe our detectors as follows:
+   And so we can now describe our detectors as follows:
     
     +-----------------+-----------------------+-------------------+------------+
     | detector name   | detector gas mix id   | detector length   | location   |
@@ -411,19 +411,19 @@ dictionary`
 
    Consider the simple image ontology discussed in a previous question
    above.  Our initial ontology uses "raw image id", "encoding type"
-   and "compression id" as key data names, using "binary data" to hold
-   the actual image data. However, we expect only one or two possible
+   and "compression type" as key data names, using "compressed data" to
+   hold the data. However, we expect only one or two possible
    alternative encodings. Therefore, only a few combinations of
    "compression type" and "encoding type" will be present in any given
-   data file, and these combinations are likely to be repeated many,
-   many times. So we create a new key identifier "byte array
-   construction id" and make this the key data name for "encoding
-   type" and "compression type".  We add "construction id" as a key
-   data name for "binary data" in place of "compression type" and
-   "encoding type". Now we can list the few combinations of
-   compression and encoding against construction id, and match the
-   appropriate value of construction id with raw image id and binary
-   data.
+   data file, and the same combinations are likely to be repeated
+   many, many times if we expect hundreds of images. So we create a
+   new key identifier "byte array construction id" and make this the
+   key data name for "encoding type" and "compression type".  We add
+   "construction id" as a key data name for "compressed data" in place of
+   "compression type" and "encoding type". Now we can list the few
+   combinations of compression and encoding against "construction id",
+   and match the appropriate value of "construction id" with "raw image
+   id" and "compressed data".
    
 5. Units. Some file formats offer structures that allow the file
 writer to specify units. Avoid using these as they create extra work
@@ -518,7 +518,7 @@ alphabetically (ii) it will be easier for a human reader to recognise
 which key data names a given data name is related to.
 
 Whether or not you choose to include the category in your name, you must
-eventually decide on permanent names to each of your draft data names.
+eventually decide on permanent names for each of your draft data names.
 Short names are good for programmers, but potentially confusing - is
 "temp" short for temperature or temporary? Whitespace is not an issue
 for modern programming languages, but in some contexts (e.g. operating
@@ -535,9 +535,13 @@ Using the ontology
 ==================
 
 As discussed in the introduction, the ontology must be mated with one
-or more formats in order to transfer data. While this is largely
-outside the scope of this workshop, a few general points can be made
-about format selection:
+or more formats in order to transfer data.  The format-ontology linkage
+should specify the data block type(s), the data names that are used,
+and how to find data for these data names in data files of the chosen
+format.
+
+While format choice is outside the scope of this workshop, a few
+general points can be made about format selection:
 
 1. the data values must be representable within the format. This is
    generally trivially possible, as any value can be represented as
@@ -635,4 +639,9 @@ software.
 Further reading
 ===============
 
-[cite Spivak][cite Hester]
+* Hester, J. R. "A robust, format-agnostic scientific data transfer
+  framework", `Data Science Journal` (2016) **15**, 12, pp. 1–17,
+  DOI:10.5334/dsj-2016-012
+
+* Spivak, D. I. and Kent, R. E. "Ologs: a categorical framework for knowledge representation",
+  `PLoS One` (2012) **7**, e24274,
