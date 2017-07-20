@@ -32,6 +32,13 @@ useful for:
 The structure of a CIF dictionary
 ---------------------------------
 
+.. raw:: latex
+
+   \begin{figure*}
+   \caption{General structure of a CIF dictionary}
+   \includegraphics[width=\textwidth]{twin_dic_annotated.eps}
+   \end{figure*}
+             
 Syntactically, a CIF dictionary is a CIF file. It contains a single
 CIF data block, within which each data name definition is defined in a
 separate **save frame**. Just as for a normal CIF data file, all
@@ -49,7 +56,6 @@ Language* or DDL. Two similar DDLs are in common use in the CIF
 framework, **DDL2** and **DDLm**. The earlier DDL1 is no longer used
 in new dictionaries.
 
-(Insert annotated dictionary figure here)
 
 Earlier we listed the core elements of a data name definition: (i) a 
 description of the data values (ii) a list of the key data names (iii)
@@ -59,41 +65,101 @@ audit and management information such as the date on which a
 definition was edited, other names for this data name, and version 
 information for the dictionary as a whole.
 
-+----------------+----------------------------------------------------------+
-|Role            | Data names                                               |
-+================+==========================================================+
-| Naming         | \_alias.definition\_id, **_definition.id**,              |
-|                | **\_name.object\_id**                                    |
-+----------------+----------------------------------------------------------+
-| Describing     | \_enumeration.\{def\_index\_id/default/mandatory/range\},|
-| values         | \_enumeration\_default.\{index/value\},                  |
-|                | **\_enumeration\_set.\{detail/state\}**,                 |
-|                | \_type.\{**container** / **contents** / dimension\},     |
-|                | **\_units.code**                                         |
-+----------------+----------------------------------------------------------+
-| Key data names | **\_name.category\_id** , **\_category\_key.name**       |
-+----------------+----------------------------------------------------------+
-| Interpretation | **_description**.{common/key\_words/**text**},           |
-|                | \_description\_example.{case/detail},                    |
-|                | \_name.linked\_item\_id, \_method.{purpose/expression}   |
-+----------------+----------------------------------------------------------+
-| Technical      | \_definition.{class/scope},\_import.\*                   |
-+----------------+----------------------------------------------------------+
-| Management     | \_dictionary.{title/class/version/date/uri/              |
-|                | ddl\_conformance/namespace/\*},                          |
-|                | \_dictionary\_audit.{version/date/revision},             |
-|                | \_alias.{deprecation\_date/dictionary\_uri},             |
-|                | \_definition.{replaced\_by/**update**/xref\_code},       |
-|                | \_dictionary\_xref.{code/date/format/name/uri},          |
-|                | \_enumeration\_set.{xref\_code/xref\_dictionary},        |
-|                | \_type.{purpose/source}                                  |
-+----------------+----------------------------------------------------------+
+.. raw:: latex
 
-All of the DDLm attributes are themselves defined in a CIF dictionary,
-written using the same attributes. Attributes that are only relevant 
-to this "attribute dictionary" are not included in the above table.
+   \begin{fullwidth}
 
-(Insert DDL2 table here)
+.. table:: Selected DDLm attributes.
+
+    +-----------------+------------------------------------------------------------+
+    |Role             | Data names                                                 |
+    +=================+============================================================+
+    | Naming          |  \_alias.definition\_id, **_definition.id**,               |
+    |                 |  **\_name.object\_id**                                     |
+    +-----------------+------------------------------------------------------------+
+    | |               | | \_enumeration.\{def\_index\_id/default/mandatory/range\},|
+    | | Describing    | | \_enumeration\_default.\{index/value\},                  |
+    | | Values        | | **\_enumeration\_set.\{detail/state\}**,                 |
+    |                 | | \_type.\{**container** / **contents** / dimension\},     |
+    |                 | | **\_units.code**                                         |
+    +-----------------+------------------------------------------------------------+
+    | Key data names  | **\_name.category\_id** , **\_category\_key.name**         |
+    +-----------------+------------------------------------------------------------+
+    ||                || **_description**.{common/key\_words/**text**},            |
+    || Interpretation || \_description\_example.{case/detail},                     |
+    ||                || \_name.linked\_item\_id, \_method.{purpose/expression}    |
+    +-----------------+------------------------------------------------------------+
+    | Technical       | \_definition.{class/scope},\_import.\*                     |
+    +-----------------+------------------------------------------------------------+
+    |                 | | \_dictionary.{title/class/version/date/uri/              |
+    |                 | | ddl\_conformance/namespace/\*},                          |
+    | |               | | \_dictionary\_audit.{version/date/revision},             |
+    | |               | | \_alias.{deprecation\_date/dictionary\_uri},             |
+    | | Management    | | \_definition.{replaced\_by/**update**/xref\_code},       |
+    | |               | | \_dictionary\_xref.{code/date/format/name/uri},          |
+    |                 | | \_enumeration\_set.{xref\_code/xref\_dictionary},        |
+    |                 | | \_type.{purpose/source}                                  |
+    +-----------------+------------------------------------------------------------+
+    
+.. table:: Selected DDL2 attributes
+
+    +-----------------+-----------------------------------------------------------+
+    |Role             | Data names                                                |
+    +=================+===========================================================+
+    ||                || **\_item.name**, \_item\_aliases.alias\_name,            |
+    || Naming         || **\_category.id**                                        |
+    +-----------------+-----------------------------------------------------------+
+    ||                || \_item\_enumeration.{value/detail},\_item\_default.value |
+    ||                || \_item\_range.minimum, \_item\_range.maximum             |
+    || Describing     || \_item\_structure.{code/organisation},                   |
+    || values         || \_item\_structure\_list.{index/code/dimension}           |
+    |                 || **\_item\_type.code**, **\_item\_units.code**            |
+    |                 || \_item\_type\_list.{code/detail/construct}               |
+    |                 || \_item\_units\_list.{code/detail}                        |
+    +-----------------+-----------------------------------------------------------+
+    | Key data names  | **\_item.category\_id** , **\_category\_key.name**        |
+    +-----------------+-----------------------------------------------------------+
+    ||                || **\_item\_description.description**,                     |
+    ||                || **\_category.description**, \_category.examples          |
+    || Interpretation || \_item\_examples.{case/detail},                          |
+    ||                || \_item\_linked.parent\_name, \_item\_linked.child\_name  |
+    |                 || \_item\_methods.method_id                                |
+    |                 || \_method\_list.{id/detail/inline/language/code}          |
+    +-----------------+-----------------------------------------------------------+
+    ||                || \_dictionary.{title/version/datablock_id}                |
+    || Management     || \_datablock.id, \_datablock.description                  |
+    ||                || \_dictionary_history.{revision/update/version}           |
+    +-----------------+-----------------------------------------------------------+
+
+.. raw:: latex
+             
+   \end{fullwidth}
+
+Differences between DDL2 and DDLm dictionaries
+----------------------------------------------
+
+* DDL2 has a system for describing values in terms of regular
+  expressions, which the dictionary author may customise, whereas DDLm
+  dictionaries are restricted to the types provided in the DDLm
+  attribute dictionary and do not use regular expressions.
+  The same customisable approach is adopted by DDL2 for units.
+
+* DDL2 dictionaries specify data name parent-child relationships (see
+  below) in the top-most category definition, and optionally at the
+  site of the child data name definition.
+
+* DDL2 assumes all data names can take multiple values, whereas DDLm
+  allows explicit restriction of some data names to single values
+  within a data block
+  
+* DDL2 allows data transformation methods to be specified in any
+  programming language, whereas DDLm requires environment-agnostic
+  dREL code
+
+* DDLm has a well-specified protocol for combining dictionaries and
+  using templates to simplify dictionary construction.
+
+* DDLm assigns meaning to category parent-child relationships.
 
 Understanding and composing DDLm dictionaries
 =============================================
@@ -135,19 +201,18 @@ Data blocks and CIF
 -------------------
 
 Data names that are restricted to single values within a CIF data
-block are assigned to 'Set' categories. :sidenote:`Note
-_definition.class is set to Set for Set categories and Loop for Loop
-categories.` All other data name definitions must belong to ``Loop``
+block are assigned to ``Set`` categories. :sidenote:`The type of
+category is indicated by setting_definition.class
+to Set or Loop` All other data name definitions must belong to ``Loop``
 categories.
 
 The values of Set category key data names do not need to be provided
 in a data file, as these values are both arbitrary and unique by
-virtue of being the only value in the file. The same consideration
-applies to any child data names. Key data names from Set categories,
-and their children, can therefore be completely dropped from the CIF
-dictionary. :sidenote:`A mechanism exists in CIF to add back these
-key data names in supplementary dictionaries, should they be
-required.`
+virtue of being the only value in the block. :sidenote:`A mechanism
+exists in CIF to add back these key data names in supplementary
+dictionaries, should they be required.` The same consideration applies
+to any child data names. Key data names from Set categories, and their
+children, can therefore be completely dropped from the CIF dictionary.
 
 Writing a DDLm dictionary from scratch
 ======================================
@@ -161,7 +226,9 @@ writing::
    #D this is the definition
    #L value1: stuff, value2: more stuff, value3: no more 
 
+   
 instead of
+
 
 .. code:: cif
       
@@ -180,11 +247,10 @@ instead of
 Step 1. Name, and write a definition for, the Head category.
 ------------------------------------------------------------
 
-The name of the head category is purely for internal use. The
-``_definition.id`` and ``name.object_id`` attributes will hold the
-name of the category. For now, the ``_name.category_id`` can be set
-either to the name of the dictionary or the name of the Head
-category. Here is a template:
+The name of the Head category is purely for internal use. The
+``_definition.id`` and ``name.object_id`` attributes hold the
+name of the category. ``_name.category_id`` should be set
+to the value of the ``_dictionary.title`` attribute. Here is a template:
 
 .. code:: cif
 
@@ -199,7 +265,7 @@ category. Here is a template:
      The CIF_CORE category contains the definitions of data items that
      are common to all domains of crystallographic studies.
      ;
-     _name.category_id CIF_DIC
+     _name.category_id CIF_DIC   #_dictionary.title from enclosing block
      _name.object_id CIF_CORE
 
      save_
@@ -217,8 +283,7 @@ Step 2. Write the category definitions.
 - ``_description.text``: a human-readable description of this category
 - ``_name.category_id``: the category this belongs to (usually the Head category).
 - ``_name.object_id``: the name of the category (again)
-- ``_category_key.name``: (possibly looped) the list of key data names for 
-    this category. Only necessary for ``Loop`` categories.
+- ``_category_key.name``: (possibly looped) the list of key data names for this category.  Only necessary for ``Loop`` categories.
 
 Here is a simple Loop category definition:
     
@@ -268,37 +333,32 @@ You will need to assign the following attributes:
 
 Some common situations covered by further attributes are:
 
-* If your data name can take values from a restricted set, use 
-  ``_enumeration_set.{state/detail}`` to list and describe each option.
+* | If your data name can take values from a restricted set, use 
+  | ``_enumeration_set.{state/detail}`` to list and describe each option.
 
-* If your data name corresponds to a key data name from another category
-  that appears in 
-  this category, set ``_name.linked_item_id`` to that other data name
-  and
-  set ``_type.purpose`` 
-  to ``Link``.
+* If your data name corresponds to a key data name from another
+  category :sidenote:`a link within a single category is also possible` that
+  appears in this category, set ``_name.linked_item_id`` to that other
+  data name and set ``_type.purpose`` to ``Link``.
 
 * If your data name directly replaces another data name, assign the 
   older name to ``_alias.definition_id``
 
 * If your data name is the standard uncertainty of another data name,
-  set ``_type.purpose`` 
-  to ``SU`` and ``_name.linked_item_id`` to that other data name.
+  set ``_type.purpose`` to ``SU`` and ``_name.linked_item_id`` to that
+  other data name.
 
 * If a specific value can be safely assumed when the data name is
-  missing
-  from a data file, 
-  specify this with ``_enumeration.default``.
+  missing from a data file, specify this with
+  ``_enumeration.default``.
 
 * If your data value is a list, array or matrix give the dimensions
-  using
-  ``_type.dimension``. 
-  An asterisk (``*``) can be used for arbitrary values.
+  using ``_type.dimension``.  An asterisk (``*``) can be used for
+  arbitrary values.
 
 .. code:: cif
 
    save__diffrn_source.device
-
    _definition.id 'diffrn_source.device'
     loop_
    _alias.definition_id
@@ -318,14 +378,13 @@ Some common situations covered by further attributes are:
     loop_
    _enumeration_set.state
    _enumeration_set.detail
-   tube         'sealed X-ray tube'
-   nuclear      'nuclear reactor'
-   spallation   'spallation source'
-   elect-micro  'electron microscope'
-   rot_anode    'rotating-anode X-ray tube'
-   synch        synchrotron
+   tube                'sealed X-ray tube'
+   nuclear             'nuclear reactor'
+   spallation          'spallation source'
+   elect-micro         'electron microscope'
+   rot_anode           'rotating-anode X-ray tube'
+   synch                synchrotron
    _enumeration.default tube
-
    save_
 
  
@@ -340,8 +399,9 @@ reader searching for a particular definition.
 Adding to a pre-existing DDLm dictionary
 ----------------------------------------
 
-Follow Steps 2 (if you need to add new categories) and 3 in the above
-instructions.
+Examine the currently-existing categories in the dictionary to determine
+if any of them have matching keys. If not, follow step 2 to add new categories.
+Add your new data names as in Step 3 above.
 
 Further DDLm dictionary enhancements
 ====================================
@@ -452,24 +512,23 @@ obtained by a **left outer join** of the parent with the child.`
 It is permissible for data files to
 present all of the data names from both categories in a single loop.
 
-.. note:: Anisotropic displacement parameters. The DDLm core CIF
-   dictionary allows anisotropic displacement parameters to be
-   presented in a separate loop, described in the ``atom_site_aniso``
-   category, which is a child category of ``atom_site``.  This allows
-   those experiments for which many atoms do not have well-determined
-   ADPs to save space in the `atom_site` listing.
+.. note:: The DDLm core CIF dictionary allows anisotropic displacement
+   parameters to be presented in a separate loop, described in the
+   ``atom_site_aniso`` category, which is a child category of
+   ``atom_site``.  This allows those experiments for which many atoms
+   do not have well-determined ADPs to save space in the `atom_site`
+   listing.
 
-.. note:: Magnetic structures
-
-   The magnetic structures dictionary makes `atom_site_moment` a child
-   category of `atom_site`, in recognition of the fact that for many
-   structures only a few atomic sites will have associated moments. In
-   such cases, the moments can be listed in a separate loop.
+.. note:: The magnetic structures dictionary makes `atom_site_moment`
+   a child category of `atom_site`, in recognition of the fact that
+   for many structures only a few atomic sites will have associated
+   moments. In such cases, the moments can be listed in a separate
+   loop.
 
 The child category after the split is the category that might take only
 a subset of the key data values.  In the examples above, not all atom
 sites have to be listed in the `atom_site_moment` or
-`_atom_site_aniso` loops.
+`_atom_site_aniso` loops, so these are the child categories.
    
 
 dREL
@@ -479,9 +538,15 @@ Mathematical relationships between data names can be expressed using
 the ``_method.expression`` attribute. The value of this attribute is 
 computer-parseable program code written in dREL. A dREL expression in
 a data name definition describes how a value for the data name is 
-calculated from the values of other data names. The DDLM cif core 
+calculated from the values of other data names. The DDLm cif core 
 dictionary contains many examples of dREL expressions. dREL is 
-described [dREL paper][here].
+described in Spadaccini `et. al.`, `J. Chem. Inf. Model.`, 2012, **52**, 1917-1925.
+
+The advantage of dREL over concrete programming languages is that no
+CIF programming library or language environment is assumed, that is,
+dREL is environment-agnostic.  As a result, in order to execute dREL
+code it must first be transformed to a concrete language, inserting
+the particular function calls required by the language and CIF API.
 
 DDLm Dictionary extensions
 ==========================
@@ -522,5 +587,20 @@ via the ``_audit.formalism`` tag.
 Further reading
 ===============
 
-[cite DDLm paper][cite dREL paper] 
-[cite DDL2 chapter IT Vol G]
+* "DDLm: A new dictionary definition language", Spadaccini, N. and Hall, S. R.,
+  `J. Chem. Inf. Model.`, 2012, **52**, 1907-1916
+
+* "dREL: A relational expression language for dictionary methods",
+  Spadaccini, N.  Castelden, I.R., du Boulay, D. and Hall, S. R.,
+  `J. Chem. Inf. Model.`, 2012, **52**, 1917-1925
+
+* "Specification of a relational dictionary definition language
+  (DDL2)", Westbrook, J. D., Berman, H. D., and Hall, S. R.,
+  `International Tables for Crystallography, Volume G`, 61-72
+
+* `The DDLm attribute dictionary
+  <http://github.com/COMCIFS/cif_core/blob/cif2-conversion/ddl.dic>`_
+  (``http://github.com/COMCIFS/cif_core/blob/cif2-conversion/ddl.dic``)
+
+
+  

@@ -14,5 +14,8 @@ pandoc -f markdown+yaml_metadata_block+implicit_figures-hard_line_breaks -t late
 
 From restructured Text:
 
-rst2latex --template rst-handout-template.tex --documentclass tufte-handout --syntax-highlight=short --documentoptions=justified,a4paper Handout-Part1.rst > rst-test.tex
+rst2latex --template rst-handout-template.tex --documentclass tufte-handout --table-style=booktabs --syntax-highlight=short --documentoptions=justified,a4paper Handout-Part1.rst > rst-test.tex
+
+Note that pdflatex fails if there is a title defined at the rst2latex step, due to some mixup with Hyperlinks. To avoid this, make sure you have at least two sections
+at top level (underlined with equals signs) so that there is no confusion.
 

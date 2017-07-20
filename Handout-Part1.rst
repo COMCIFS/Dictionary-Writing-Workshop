@@ -103,12 +103,12 @@ energy point, we may think that our observed intensity values are
 distinguished from one another by the energy at which they were
 measured; however, the same value of energy could possibly lead to a
 different intensity on a subsequent measurement due to statistical
-variation; so it does not satisfy our criterion that identical values
+variation, so it does not satisfy our criterion that identical values
 of the key data names *must* correspond to identical values of the
 defined data name. :sidenote:`It is important not to confuse our model
 of the world, in which we expect the measured value to be determined
 by the values of some other parameters, with the actual experiment, in
-which a series of observations are made.` The key data name for
+which a series of observations are made.` A key data name for
 observed quantities is therefore simply "a measurement point", with
 arbitrary values that we assign (see below).
 
@@ -126,19 +126,21 @@ We have introduced a third class of data names, those that are
 For "identifier" data names, the actual values are irrelevant, as the
 values are only used to distinguish or label different
 members. Examples of identifier data names include measurement points,
-serial numbers, atom sites, sample numbers and run numbers. While we
-often use numbers for identifier data values because it is easy to
-pick a unique one if we label sequentially, their numerical properties
-should not be used; if an identifier value has some other meaning, or
-is used in calculations, then we run the risk that a situation will
-arise where the same value should be assigned to distinct items, and
-so our values can no longer serve as identifiers. For example, we may
-decide to identify image frames in a data collection by numbering
-sequentially from zero, with each frame corresponding to a small
-uniform change in a sample orientation axis. If we then fall into the
-trap of using the image number multiplied by the axis step to get the
-axis value, we can no longer cope with a situation where the same
-orientation was recollected, for whatever experimental reason.
+serial numbers, atom sites, sample numbers and run numbers.
+
+.. warning:: While we often use numbers for identifier data values
+   because it is easy to pick a unique one if we label sequentially,
+   their numerical properties should not be used; if an identifier
+   value has some other meaning, or is used in calculations, then we
+   run the risk that a situation will arise where the same value
+   should be assigned to distinct items, and so our values can no
+   longer serve as identifiers. For example, we may decide to identify
+   image frames in a data collection by numbering sequentially from
+   zero, with each frame corresponding to a small uniform change in a
+   sample orientation axis. If we then fall into the trap of using the
+   image number multiplied by the axis step to get the axis value, we
+   can no longer cope with a situation where the same orientation was
+   recollected, for whatever experimental reason.
 
 When choosing identifiers, consider the human user and suggest a
 natural system of labeling in your definition - labels that are
@@ -200,6 +202,24 @@ Practice questions:
     | C: the detector voltage
     | D: all of the above
     | E: none of the above
+
+    Q 3. For efficiency, simultaneous intensity measurements from
+    multi-pixel detectors are stored in a datafile as a sequence of
+    bytes that has a particular compression algorithm and integer
+    encoding. The particular choice of encoding and compression
+    routine might vary within a single measurement sequence according
+    to factors such as the range of values, maximum value, or detector
+    module.  Assume we have assigned a data name to one of these byte
+    sequences.  What are the key data names?
+
+    Answer: the byte sequence is processed data, so all parameters
+    used in the processing are relevant. In this case the input is the
+    raw data from every pixel, an encoding and a compression id. If
+    any of these change, the byte sequence may be different, and given
+    all of these, the byte sequence is fixed, so they fulfill our
+    requirements for key data names. In practice we would bundle the
+    raw data from every pixel into something like "raw image" and
+    assign an identifier to each such image.
 
 Creating the ontology, step by step
 ===================================
@@ -270,7 +290,7 @@ short.
 
 .. important::
 
-   Work out how to represent simultaneous roles.  Possible
+    Work out how to represent simultaneous roles.  Possible
     roles might include {"principal" "attending" "experimenter" "dogsbody"
     "programmer" "instrument responsible"} . See the ionisation chamber example
     below for ideas.
@@ -286,7 +306,7 @@ in a way that is manipulable by computer.
 glorified word processor format, and has a much reduced value in
 automated settings. So look over your datanames, and where you have
 quantitative information in free or formatted text, rework it into
-observational or calculated data names that take numerical values.
+observational or calculated data names that take standard value types.
 
 2. Where you have two or more identifier data names that refer to the
 same type of thing, with the same key data names, you should rework
@@ -296,7 +316,8 @@ used to identify combinations of values for these duplicate datanames
 the values that your original data names were supposed to take.
 Finally, replace your duplicate data names by a single identifier data
 name that draws from the values of C.  The same information is now
-representable in an extensible way.
+representable in an extensible way. This technique could be described
+as creating an associative table.
 
 .. note::
 
@@ -307,27 +328,28 @@ representable in an extensible way.
 
     Our starting definition is: **gas mix** "the mixture of gases in
     an ion chamber, in format element-percent-element-percent", with
-    key data name "ion chamber id".  If we tabulate this, we might
-    have:
+    key data name "detector id" and other data names "detector length"
+    and "location".  If we tabulate this, we might have:
 
-     +----------------+-------------+
-     | ion chamber id | gas mix     |
-     +----------------+-------------+
-     | BB25           | He-50-N-50  |
-     +----------------+-------------+
-     | XYZ            | Ar-100      |
-     +----------------+-------------+
-     | Old-G          | Ar-100      |
-     +----------------+-------------+
+     +----------------+-------------+-------------------+------------+
+     | detector id    | gas mix     | detector length   | location   |
+     +================+=============+===================+============+
+     | BB25           | He-50-N-50  | 5                 | monitor    |
+     +----------------+-------------+-------------------+------------+
+     | XYZ            | Ar-100      | 5                 | detector   |
+     +----------------+-------------+-------------------+------------+
+     | Old-G          | Ar-100      | 10                | foil       |
+     +----------------+-------------+-------------------+------------+
      
    As described in point (1) above, this embeds data items into the
    value, essentially making them unavailable elsewhere in our
    ontology.  To remedy this, we create data names "first gas" "first
-   gas percent" "second gas" "second gas percent".
+   gas percent" "second gas" "second gas percent" (leaving out the
+   other two columns for now)
 
      +----------------+-------------+-------------+-------------+--------------+
-     | ion chamber id | first gas   | first gas % | second gas  | second gas % |
-     +----------------+-------------+-------------+-------------+--------------+
+     | detector    id | first gas   | first gas % | second gas  | second gas % |
+     +================+=============+=============+=============+==============+
      | BB25           | He          |   50        |    N        |    50        |
      +----------------+-------------+-------------+-------------+--------------+
      | XYZ            | Ar          |   100       |    .        |     .        |
@@ -346,10 +368,9 @@ representable in an extensible way.
    and drop "first/second gas percent".  Now, given an ionisation
    chamber, it is sufficient for us to nominate the gas mix id to
    completely identify the gas components - but recall from earlier
-   that the gas mix id that has ionisation chamber as its key data
-   name must have a different data name.
-    
-    Now we can tabulate all of our mixes:
+   that the gas mix id that has detector id as its key data name must
+   have a different data name. We can tabulate all of our mixes in an
+   associative table:
     
     +------------+--------------+------------------+
     | Gas name   | gas mix id   | gas percentage   |
@@ -361,7 +382,7 @@ representable in an extensible way.
     | N          | A            | 50               |
     +------------+--------------+------------------+
     
-    And so we might then also describe our detectors as follows:
+   And so we might then also describe our detectors as follows:
     
     +-----------------+-----------------------+-------------------+------------+
     | detector name   | detector gas mix id   | detector length   | location   |
@@ -374,19 +395,43 @@ representable in an extensible way.
     +-----------------+-----------------------+-------------------+------------+
 
 3. Where there are limited choices for the value of a data name,
-   explicitly define each of these choices and assign a number or string
-   to them. For example, instead of a dataname "location", with a
-   description of position left up to the software author, you might
-   define "monitor": before the sample "detector": measure signal from
-   sample "foil": measure signal after sample and calibration foil.
+explicitly define each of these choices and assign a number or string
+to them. For example, instead of a dataname "location", with a
+description of position left up to the software author, you might
+define "monitor": before the sample; "detector": measure signal from
+sample; "foil": measure signal after sample and calibration foil.
 
-4. Units. Some file formats offer structures that allow the file writer
-   to specify units. Avoid using these as they create extra work for the
-   file reading software in anticipating every possible unit that is
-   appropriate. Usually only one or two units are in common use, so
-   choose and specify a unit in your definition. If the community has
-   not converged on a particular unit, create a second definition that
-   differs only in the unit used.
+4. Bundle up commonly-occuring combinations of values.  Where a series
+of data names are expected to take the same set of values, consider
+assigning a separate identifier to each set of values and replacing
+them with a pointer to this identifier.  :sidenote:`This example adapted from the imgCIF
+dictionary`
+
+.. note::
+
+   Consider the simple image ontology discussed in a previous question
+   above.  Our initial ontology uses "raw image id", "encoding type"
+   and "compression id" as key data names, using "binary data" to hold
+   the actual image data. However, we expect only one or two possible
+   alternative encodings. Therefore, only a few combinations of
+   "compression type" and "encoding type" will be present in any given
+   data file, and these combinations are likely to be repeated many,
+   many times. So we create a new key identifier "byte array
+   construction id" and make this the key data name for "encoding
+   type" and "compression type".  We add "construction id" as a key
+   data name for "binary data" in place of "compression type" and
+   "encoding type". Now we can list the few combinations of
+   compression and encoding against construction id, and match the
+   appropriate value of construction id with raw image id and binary
+   data.
+   
+5. Units. Some file formats offer structures that allow the file
+writer to specify units. Avoid using these as they create extra work
+for the file reading software in anticipating every possible unit that
+is appropriate. Usually only one or two units are in common use, so
+choose and specify a unit in your definition. If the community has not
+converged on a particular unit, create a second definition that
+differs only in the unit used.
 
 .. tip:: Units.  if you allow units to be specified in the data file
       instead of the definition of some data name A, you could be
@@ -400,37 +445,37 @@ representable in an extensible way.
       update", whether you like it or not. This can be difficult for
       programmers who wish to track your ontology.
 
-      An alternative viewpoint is that your data file is simply providing a 
-      missing part of the ontological specification.
+      An alternative view is that your data file is simply
+      providing a missing part of the ontological specification, which
+      software can dynamically implement.
 
-5. Software-specific names. Any data name that essentially refers to the
-   input or output of some software package calculation has value in
-   proportion to the number of people with access to the version of the
-   software in question, or to the extent to which the software
-   setting/output can be linked to specific calculations through
-   documentation or source code. Given this, the value of such data
-   names is likely to decline over time. Therefore, where such data
-   names occur, attempt to rephrase them in non-software-specific terms.
-   Instead of "multiplicity as calculated by XYZ Version 1.2", write
-   "the number of special positions divided by the number of general
-   positions".
+6. Software-specific names. Any data name that essentially refers to
+the input or output of some software package calculation has value in
+proportion to the number of people with access to the version of the
+software in question, or to the extent to which the software
+setting/output can be linked to specific calculations through
+documentation or source code. Given this, the value of such data names
+is likely to decline rapidly over time. Therefore, where such data
+names occur, attempt to rephrase them in non-software-specific terms.
+Instead of "multiplicity as calculated by XYZ Version 1.2", write "the
+number of special positions divided by the number of general
+positions".
 
-6. Instrument-specific names. Similarly, any data name whose
-   definition refers to the configuration of an instrument in a way
-   that is insufficient to enable reproduction in a different lab or
-   independent modelling is unlikely to be of use outside the lab that
-   produced it.  Instead of "Position of motor mom" think
-   "monochromator takeoff angle". Of course, a large facility may
-   choose to create an ontology for in-house use in which case such
-   definitions might be sufficient for internal purposes when combined
-   with local knowledge.
-
-At the completion of this step, your ontology has all the information
-necessary to use it for data transfer. We now draw out some important
-features of the ontology for practical use.
+7. Instrument-specific names. Similarly, any data name whose
+definition refers to the configuration of an instrument in a way that
+is insufficient to enable reproduction in a different lab or
+independent modelling is unlikely to be of use outside the lab that
+produced it.  Instead of "Position of motor mom" think "monochromator
+takeoff angle". Of course, a large facility may choose to create an
+ontology for in-house use in which case such definitions might be
+sufficient for internal purposes when combined with local knowledge.
 
 Step 4: Data blocks
 -------------------
+
+At the completion of the previous step, your ontology has all the
+information necessary to use it for data transfer. We now draw out
+some important features of the ontology for practical use.
 
 When you consider your data names, it is likely that some of them will
 have the same value over the entire data set that you wish to transfer
@@ -496,7 +541,9 @@ about format selection:
 
 1. the data values must be representable within the format. This is
    generally trivially possible, as any value can be represented as
-   text, that is, a sequence of bytes with a specified text encoding.
+   text, that is, a sequence of bytes with a specified text encoding,
+   but extra work will be required if programming libraries for the
+   format do not support encoding/decoding of a data value type.
 
 2. the correspondence between each data value and its key data names'
    values must be representable. This requirement is met by any
@@ -513,10 +560,10 @@ about format selection:
 
 .. important:: Consider any data formats that you are familiar
                   with. How well do they meet requirements (1)-(3),
-                  and your particular requirements?
+                  and your particular requirements for (4)?
                  
       
-Advanced topics
+Further topics
 ===============
 
 Aggregate calculations
@@ -551,17 +598,17 @@ recorded. And so forth.
 Adding and redefining data names
 --------------------------------
 
-Once an ontology is published, the relationships between data names and
-their key data names become enshrined in software that is then
-distributed and relied upon. If we change these relationships later, we
-risk silent misinterpretation of new data files by legacy software.
-
 Adding new non-key data names is unproblematic. This is often the case
 for "observational" data names, for example, providing a new data name
 to report humidity during data collection does not affect the
 intepretation of any other "observational" information. Similarly, whole
 new categories (data names and their key data names) can be added with
 no effect on existing data names.
+
+Once an ontology is published, the relationships between data names and
+their key data names become embodied in software that is then
+distributed and relied upon. If we change these relationships later, we
+risk silent misinterpretation of new data files by legacy software.
 
 Adding new *key* data names to already-existing data names would, in
 theory, never happen as the context was supposed to have been completely
