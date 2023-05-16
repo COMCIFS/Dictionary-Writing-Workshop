@@ -45,6 +45,7 @@
 
 ## Using Github: some simple workflows
   * Live demonstrate a PR on our practical example
+    - Ask participants to submit some PRs and we will comment on them - note the live check delay may be annoying
 
 ## Practical example: a conference microsymposium dictionary
   * Collect datanames that we would like
