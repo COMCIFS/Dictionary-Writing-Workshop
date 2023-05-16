@@ -14,6 +14,7 @@ $stylesheet
 \NewDocumentEnvironment{testexample}{ O{} }
 {
 \colorlet{colexam}{red!55!black} % Global example color
+%%% Example box
 \newtcolorbox[use counter=testexample]{testexamplebox}{%
     % Example Frame Start
     empty,% Empty previously set parameters
@@ -39,6 +40,70 @@ $stylesheet
 \begin{testexamplebox}}
 {\end{testexamplebox}\endlist}
 
+%%% Tip box
+
+\def\tiptext{Tip} %
+\NewDocumentEnvironment{customtip}{ O{} }
+{
+\colorlet{coltip}{green!55!black} % Global example color
+%%% Example box
+\newtcolorbox{testtipbox}{%
+    % Example Frame Start
+    empty,% Empty previously set parameters
+    title={\tiptext: #1},% use \thetcbcounter to access the testexample counter text
+    % Attaching a box requires an overlay
+    attach boxed title to top left,
+       % Ensures proper line breaking in longer titles
+       minipage boxed title,
+    % (boxed title style requires an overlay)
+    boxed title style={empty,size=minimal,toprule=0pt,top=4pt,left=3mm,overlay={}},
+    coltitle=coltip,fonttitle=\bfseries,
+    before=\par\medskip\noindent,parbox=false,boxsep=0pt,left=3mm,right=0mm,top=2pt,breakable,pad at break=0mm,
+       before upper=\csname @totalleftmargin\endcsname0pt, % Use instead of parbox=true. This ensures parskip is inherited by box.
+    % Handles box when it exists on one page only
+    overlay unbroken={\draw[coltip,line width=.5pt] ([xshift=-0pt]title.north west) -- ([xshift=-0pt]frame.south west); },
+    % Handles multipage box: first page
+    overlay first={\draw[coltip,line width=.5pt] ([xshift=-0pt]title.north west) -- ([xshift=-0pt]frame.south west); },
+    % Handles multipage box: middle page
+    overlay middle={\draw[coltip,line width=.5pt] ([xshift=-0pt]frame.north west) -- ([xshift=-0pt]frame.south west); },
+    % Handles multipage box: last page
+    overlay last={\draw[coltip,line width=.5pt] ([xshift=-0pt]frame.north west) -- ([xshift=-0pt]frame.south west); },%
+    }
+\begin{testtipbox}}
+{\end{testtipbox}\endlist}
+
+%%% Warning section
+
+\def\warningtext{Warning} %
+\NewDocumentEnvironment{customwarn}{ O{} }
+{
+\colorlet{colwarn}{red!155!black} % Global example color
+%%% Example box
+\newtcolorbox{testwarnbox}{%
+    % Example Frame Start
+    empty,% Empty previously set parameters
+    title={\warningtext: #1},% use \thetcbcounter to access the testexample counter text
+    % Attaching a box requires an overlay
+    attach boxed title to top left,
+       % Ensures proper line breaking in longer titles
+       minipage boxed title,
+    % (boxed title style requires an overlay)
+    boxed title style={empty,size=minimal,toprule=0pt,top=4pt,left=3mm,overlay={}},
+    coltitle=colwarn,fonttitle=\bfseries,
+    before=\par\medskip\noindent,parbox=false,boxsep=0pt,left=3mm,right=0mm,top=2pt,breakable,pad at break=0mm,
+       before upper=\csname @totalleftmargin\endcsname0pt, % Use instead of parbox=true. This ensures parskip is inherited by box.
+    % Handles box when it exists on one page only
+    overlay unbroken={\draw[colwarn,line width=.5pt] ([xshift=-0pt]title.north west) -- ([xshift=-0pt]frame.south west); },
+    % Handles multipage box: first page
+    overlay first={\draw[colwarn,line width=.5pt] ([xshift=-0pt]title.north west) -- ([xshift=-0pt]frame.south west); },
+    % Handles multipage box: middle page
+    overlay middle={\draw[colwarn,line width=.5pt] ([xshift=-0pt]frame.north west) -- ([xshift=-0pt]frame.south west); },
+    % Handles multipage box: last page
+    overlay last={\draw[colwarn,line width=.5pt] ([xshift=-0pt]frame.north west) -- ([xshift=-0pt]frame.south west); },%
+    }
+\begin{testwarnbox}}
+{\end{testwarnbox}\endlist}
+
 \theoremstyle{definition}
 \newtheorem{exer}{Exercise}
 \newtheorem{example}{Example}
@@ -55,9 +120,22 @@ $stylesheet
    #1%
    \end{testexample}%
 }
+\newcommand{\DUadmonitiontip}[1]{%
+   \begin{customtip}
+   #1%
+   \end{customtip}
+}
+\newcommand{\DUadmonitionwarning}[1]{%
+   \begin{customwarn}
+   #1%
+   \end{customwarn}
+}
 \newcommand{\DUtitlenote}[1]{}
 \newcommand{\DUtitleimportant}[1]{}
 \newcommand{\DUrolesidenote}{\marginnote}
+%%% Make tips and warnings into colourboxes too
+\newcommand{\DUtitletip}[1]{}
+\newcommand{\DUtitlewarning}[1]{}
 %%% Typesetting CIF text
 %%% \newcommand{\DUroletag}{\bf}
 %%% Fallback definitions for Docutils-specific commands

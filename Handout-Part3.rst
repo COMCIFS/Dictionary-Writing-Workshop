@@ -1,3 +1,4 @@
+
 Creating formal dictionaries
 ============================
 
@@ -148,13 +149,14 @@ Differences between DDL2 and DDLm dictionaries
   below) in the top-most category definition, and optionally at the
   site of the child data name definition.
 
-* DDL2 assumes all data names can take multiple values, whereas DDLm
-  allows explicit restriction of some data names to single values
-  within a data block
+* DDL2 dictionaries restrict data names to single values per data
+  block by relating them to an identifier that is defined to be
+  single-valued, whereas DDLm uses a specific attribute for this
+  purpose.
   
 * DDL2 allows data transformation methods to be specified in any
   programming language, whereas DDLm requires environment-agnostic
-  dREL code
+  dREL code.
 
 * DDLm has a well-specified protocol for combining dictionaries and
   using templates to simplify dictionary construction.
@@ -586,6 +588,29 @@ via the ``_audit.formalism`` tag.
 
 Further reading
 ===============
+
+Constructing scientific ontologies
+----------------------------------
+
+* Hester, J. R. "A robust, format-agnostic scientific data transfer
+  framework", `Data Science Journal` (2016) **15**, 12, pp. 1–17,
+  DOI:10.5334/dsj-2016-012
+
+* Spivak, D. I. and Kent, R. E. "Ologs: a categorical framework for knowledge representation",
+  `PLoS One` (2012) **7**, e24274,
+
+Relational model
+----------------
+
+*  The imgCIF dictionary is an excellent, small-scale example of a nicely
+   normalised ontology. Find it at: ``ftp://ftp.iucr.org/cifdics/cif_img_1.3.2.dic.pdf``
+   or `International Tables for Crystallography, Volume G`, Sections 3.7 and 4.6
+
+*  Wikipedia articles "Relational Model" and "Database normalisation" are good
+   starting points.
+
+Writing CIF dictionaries
+------------------------
 
 * "DDLm: A new dictionary definition language", Spadaccini, N. and Hall, S. R.,
   `J. Chem. Inf. Model.`, 2012, **52**, 1907-1916

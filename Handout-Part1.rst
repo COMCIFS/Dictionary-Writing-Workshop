@@ -636,12 +636,3 @@ data set. Such a data name should be defined when an ontology is first
 published, so that a check of its value is incorporated into all
 software.
 
-Further reading
-===============
-
-* Hester, J. R. "A robust, format-agnostic scientific data transfer
-  framework", `Data Science Journal` (2016) **15**, 12, pp. 1–17,
-  DOI:10.5334/dsj-2016-012
-
-* Spivak, D. I. and Kent, R. E. "Ologs: a categorical framework for knowledge representation",
-  `PLoS One` (2012) **7**, e24274,

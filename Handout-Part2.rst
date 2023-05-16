@@ -6,8 +6,7 @@ The Relational Model
           
 The ontological structure described in the previous section maps
 precisely onto the **Relational Model** used in relational databases.
- :sidenote:`Codd,
-E.F (1970).  Communications of the ACM. Classics. 13 (6),
+:sidenote:`Codd, E.F (1970).  Communications of the ACM. Classics. 13 (6),
 377–87. doi:10.1145/362384.362685` Insights from over 40 years of
 working with this model can be usefully applied to the structure of
 our ontology.
@@ -111,12 +110,3 @@ through an **associative table**, as created in that example.
 expressed by using a (key data name) identifier for the **many** and
 tabulating the **one** against it.
 
-Further reading
-===============
-
-1. The imgCIF dictionary is an excellent, small-scale example of a nicely
-   normalised ontology. Find it at: ``ftp://ftp.iucr.org/cifdics/cif_img_1.3.2.dic.pdf``
-   or `International Tables for Crystallography, Volume G`, Sections 3.7 and 4.6
-
-2. Wikipedia articles "Relational Model" and "Database normalisation" are good
-   starting points.
