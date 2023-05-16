@@ -28,9 +28,10 @@
   * Overall structure
   * Identifying categories
 
-## Using Github
+## Using Git and Github
   * Basic navigation
      - Looking at dictionaries
+     - Branches
      - Other features of the interface
   * PRs
      - Looking at PRs, open and closed
@@ -38,7 +39,9 @@
   * Issues
      - Creating issues
      - Looking at open and closed issues
-  * Cloning to your own area
+  * Managing your own fork
+     - Making branches
+     - Synchronising
   * Running automated checks
      - In your own area
      - NB issue for us: Github will probably be unresponsive if all 57 participants execute a check at the same time.
