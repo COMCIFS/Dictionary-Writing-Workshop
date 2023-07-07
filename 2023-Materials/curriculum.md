@@ -52,7 +52,7 @@
      - Include derived, e.g. total number of distinct attendees
   * Decide on the extent of a single data block (one microsymposium)
   * Make more computer-friendly
-     - The EXAFS gas1, gas2 example but with ?
+     - List of authors associated with an abstract
   * Arrange data names into categories
   * Write some definitions
   * Show how to build into a full conference dictionary
