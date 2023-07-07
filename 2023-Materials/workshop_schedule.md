@@ -62,7 +62,9 @@
   * Issues
      - Creating issues
      - Looking at open and closed issues
-  * Cloning to your own area
+  * Managing your own fork
+     - Creating branches
+     - Synchronising
   * Running automated checks
      - In your own area
      - NB issue for us: Github will probably be unresponsive if all 57 participants execute a check at the same time.
