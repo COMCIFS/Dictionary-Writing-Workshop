@@ -28,9 +28,10 @@
   * Overall structure
   * Identifying categories
 
-## Using Github
+## Using Git and Github
   * Basic navigation
      - Looking at dictionaries
+     - Branches
      - Other features of the interface
   * PRs
      - Looking at PRs, open and closed
@@ -38,13 +39,16 @@
   * Issues
      - Creating issues
      - Looking at open and closed issues
-  * Cloning to your own area
+  * Managing your own fork
+     - Making branches
+     - Synchronising
   * Running automated checks
      - In your own area
      - NB issue for us: Github will probably be unresponsive if all 57 participants execute a check at the same time.
 
 ## Using Github: some simple workflows
   * Live demonstrate a PR on our practical example
+    - Ask participants to submit some PRs and we will comment on them - note the live check delay may be annoying
 
 ## Practical example: a conference microsymposium dictionary
   * Collect datanames that we would like
