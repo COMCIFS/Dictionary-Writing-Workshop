@@ -14,10 +14,12 @@
    - Reference
 
 * Relational model
-   - Justification
-   - Everything is in a table
-   - Keys
-   - Link to category theory and functions connecting sets
+   - Description
+   - Functional perspective
+   - Category theory perspective
+   - Normal forms
+   - Practical uses of above information
+   - How data blocks relate to relations
 
 ## 10.45am Morning tea
 
@@ -34,6 +36,7 @@
      - `_description.text`
      - `category_id`, `object_id`
      - `_definition.id`
+     - `_name.linked_item_id`
 * Optional information
 
 ## 11.30am Dictionary creation exercise (James)
@@ -69,9 +72,14 @@
      - In your own area
      - NB issue for us: Github will probably be unresponsive if all 57 participants execute a check at the same time.
 
-## Using Github: some simple workflows
+## Using Github: some simple workflows (Matthew)
   * Live demonstrate a PR on our practical example
 
 ## 4.00pm Afternoon tea
 
-## 4.30pm Discussion
+## 4.30pm Writing CIF Software (Antanas?)
+  * Survey of available libraries (C/Fortran/Python/Perl/Julia)
+  * Useful tools (cod-tools at least)
+  * Using dictionaries
+  * Checking `_audit.schema`
+  * Other tips?
