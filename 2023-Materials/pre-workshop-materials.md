@@ -4,8 +4,8 @@
 
 * Create a Github account (strongly advised)
 * Browse https://github.com/COMCIFS/cif_core/issues , /pulls (optional)
-* ?
+* Install Github desktop
 
 ## Pre-workshop informational page
 
-Should we create one, perhaps using the Wiki here?
+Brian has created one on the IUCr website.
